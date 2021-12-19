@@ -1,0 +1,18 @@
+---
+- name: Setup local email
+  hosts: archlinux
+
+  tasks:
+    - name: Install official repository packages
+      community.general.pacman:
+        name:
+          - isync
+          - goimapnotify
+        state: present
+      become: yes
+
+    - name: Install AUR packages
+      community.general.pacman:
+        name: mu
+        state: present
+        executable: yay
