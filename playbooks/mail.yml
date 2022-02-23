@@ -16,3 +16,10 @@
         name: mu
         state: present
         executable: yay
+
+    - name: Start imapnotify service
+      ansible.builtin.systemd:
+        name: goimapnotify@ianmancini.service
+        scope: user
+        state: started
+        enabled: yes
