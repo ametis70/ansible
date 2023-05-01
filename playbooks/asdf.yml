@@ -1,0 +1,48 @@
+---
+- name: Setup asdf version manager
+  hosts: all
+  vars:
+    nodejs_version: "18.16.0"
+    python_version: "3.9.16"
+
+  tasks:
+    - name: Install dependencies
+      community.general.pacman:
+        name:
+          - curl
+          - git
+        state: present
+      become: yes
+         
+    - name: Clone asdf repo
+      ansible.builtin.git:
+        repo: https://github.com/asdf-vm/asdf.git
+        dest: ~/.asdf
+        version: v0.11.3
+    
+    - name: Add Node.js asdf plugin
+      ansible.builtin.shell:
+        cmd: source ~/.asdf/asdf.sh && asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
+        creates: ~/.asdf/plugins/nodejs
+
+    - name: Install Node.js version and set as global
+      ansible.builtin.shell:
+        cmd: source ~/.asdf/asdf.sh && asdf install nodejs 18.16.0 && asdf global nodejs 18.16.0
+
+    - name: Check Node.js version
+      ansible.builtin.shell:
+        cmd: source ~/.asdf/asdf.sh && test "$(node --version)" = "v{{ nodejs_version }}"
+
+    - name: Add Python asdf plugin
+      ansible.builtin.shell:
+        cmd: source ~/.asdf/asdf.sh && asdf plugin add python https://github.com/asdf-community/asdf-python
+        creates: ~/.asdf/plugins/python
+
+    - name: Install Python version and set as global
+      ansible.builtin.shell:
+        cmd: source ~/.asdf/asdf.sh && asdf install python 3.9.16 && asdf global python 3.9.16
+
+    - name: Check Python version
+      ansible.builtin.shell:
+        cmd: source ~/.asdf/asdf.sh && test "$(python --version)" = "Python {{ python_version }}"
+
