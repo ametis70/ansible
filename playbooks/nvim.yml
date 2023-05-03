@@ -1,0 +1,21 @@
+---
+- name: Setup Neovim
+  hosts: all
+  vars: 
+    ansible_python_interpreter: /usr/bin/python
+
+  tasks:
+    - name: Install neovim dependencies
+      community.general.pacman:
+        name:
+          - neovim
+          - fd
+          - ripgrep
+        state: present
+      become: yes
+         
+    - name: Clone nvim config repo
+      ansible.builtin.git:
+        repo: git@github.com:ametis70/nvim-conf.git
+        dest: ~/.config/nvim
+        accept_newhostkey: true
