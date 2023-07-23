@@ -1,0 +1,12 @@
+---
+- name: Setup dotmix
+  hosts: all
+  vars: 
+    ansible_python_interpreter: /usr/bin/python
+
+  tasks:
+    - name: Install dotmix through asdf's pip
+      ansible.builtin.shell:
+        cmd: source ~/.asdf/asdf.sh && pip install dotmix
+        creates: ~/.asdf/shims/dotmix
+
