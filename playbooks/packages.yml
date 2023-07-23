@@ -1,0 +1,40 @@
+---
+- name: Setup system packages
+  hosts: all
+  vars: 
+    ansible_python_interpreter: /usr/bin/python
+
+  tasks:
+    - name: Install system packages
+      community.general.pacman:
+        name:
+          - kitty 
+          - pass
+          - gnupg
+          - zsh
+          - xorg-xinit
+          - xorg-xkill
+          - syncthing
+          - nextcloud
+          - zk
+          - slop
+          - maim
+          - scrot
+          - polybar
+          - dunst
+          - qutebrowser
+          - tmux
+          - zathura
+          - i3
+          - docker
+          - docker-compose
+          - chromium
+          - firefox
+          - stow
+          - usbutils
+          - unzip
+          - rofi
+        state: latest
+        update_cache: true
+      become: yes
+
