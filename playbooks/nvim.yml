@@ -11,6 +11,8 @@
           - neovim
           - fd
           - ripgrep
+          - lazygit
+          - zk
         state: present
       become: yes
          
